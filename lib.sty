@@ -1,0 +1,196 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lib}[2026/03/23 Thư viện soạn đề thi cá nhân]
+
+% --- Khai báo các gói hỗ trợ ---
+\RequirePackage{amsmath,amssymb} 
+\RequirePackage{xcolor} 
+\RequirePackage{tikz}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
+\RequirePackage{dashrule}
+\RequirePackage{tasks}
+\RequirePackage{titlesec}
+\RequirePackage{calc}
+\RequirePackage{etoolbox}
+\RequirePackage{environ}
+\RequirePackage{enumitem}
+\RequirePackage{array} % Hỗ trợ định dạng bảng tốt hơn
+% --- Mã đề thi ---
+\newcommand{\madethi}[1]{\def\sode{#1}}
+
+% --- Khai báo chốt đề thi ---
+\newcommand{\cuoidethi}{
+    \begin{center}
+        \vspace{5mm}
+        \textbf{\underline{HẾT}}\\
+        \smallskip
+        \textbf{Họ và tên thí sinh:} \dotfill \\
+        \smallskip
+        \textbf{Lớp:} \dotfill \textbf{Số báo danh:} \dotfill \\
+        \smallskip
+        \textbf{* Ghi chú:} \textit{Thí sinh không được sử dụng tài liệu. Giám thị coi thi không giải thích gì thêm.}
+    \end{center}
+}
+
+% --- Thông tin trường ---
+\newcommand{\thongtintruong}[4]{
+    \noindent
+    \begin{tabularx}{\textwidth}{@{} l >{\raggedleft\arraybackslash}X @{}}
+        % --- Cột bên trái --- %
+        \begin{tabular}[t]{@{}c@{}}
+            SỞ GIÁO DỤC VÀ ĐÀO TẠO        \\
+            THÀNH PHỐ HỒ CHÍ MINH         \\
+            \textbf{TRƯỜNG THPT VĨNH LỘC} \\
+            \hdashrule{4cm}{1pt}{1mm}
+        \end{tabular}
+        &
+        % --- Cột bên phải --- %
+        \begin{tabular}[t]{@{}c@{}}
+            \textbf{ĐỀ THI #1 HỌC KÌ #2 - NĂM HỌC #3}   \\
+            \begin{tabular}{ll}
+                \textbf{Môn: Toán học \hspace{1cm} Khối: #4} \\
+                \textbf{Thời gian: 90 phút}                  \\
+            \end{tabular} \\
+            \textit{(Không kể thời gian phát đề)}\\[0.5cm]
+            \setlength{\fboxsep}{5pt}
+            \hfill\fbox{\textbf{Mã đề: \sode}}
+        \end{tabular}
+    \end{tabularx}
+}
+
+% --- Trục Oxy ---
+\newcommand{\Oxy}[4]{
+	% --- Vẽ trục toạ độ có 4 toạ độ cho trước --- %
+    \draw[->] (#1,0) -- (#2,0) node[below] {\footnotesize $x$};
+    \draw[->] (0,#3) -- (0,#4) node[right] {\footnotesize $y$};
+    
+    % --- Viết số 0 tại gốc toạ độ, ở dưới bên trái và đẩy lên 3pt để gần với gốc hơn --- %
+    \node at (0,0) [below left, xshift=3pt, yshift=3pt] {\footnotesize O};
+    \fill (0,0) circle (1.5pt);
+	
+	% --- Khi vẽ thì sẽ vẽ dư ra 1 đơn vị --- %
+    \pgfmathtruncatemacro{\xstart}{#1+1}
+    \pgfmathtruncatemacro{\xend}{#2-1}
+    \pgfmathtruncatemacro{\ystart}{#3+1}
+    \pgfmathtruncatemacro{\yend}{#4-1}
+
+	% --- Vẽ các điểm trên trục x và y --- %
+    \foreach \x in {\xstart,...,\xend} {
+        \ifnum \x=0 \else
+            \draw (\x,0.1) -- (\x,-0.1) node[below] {\footnotesize \x};
+        \fi
+    }
+
+    \foreach \y in {\ystart,...,\yend} {
+        \ifnum \y=0 \else
+            \draw (0.1,\y) -- (-0.1,\y) node[left] {\footnotesize \y};
+        \fi
+    }
+}
+
+% --- Cấu hình Section ---
+\titleformat{\section}
+    {\normalfont\bfseries}
+    {Phần \thesection: }
+    {0pt}
+    {}
+    {}
+
+% --- Khu vực câu hỏi ví dụ section ---
+\newenvironment{khuvuc}[1]{
+    \section{#1}
+    \begin{enumerate}[
+        label=\textbf{Câu \arabic*:},
+        wide=0pt, % Canh đều lề trái toàn bộ câu hỏi
+        labelindent=0pt,
+        align=left,	 % ép canh lề trái
+        resume, % Reset lại câu 1 khi qua khu vực mới
+        font=\normalfont\bfseries % Ép font chữ Câu giống hệt font Section
+    ]
+}{
+    \end{enumerate}
+}
+    
+% --- tạo biến lưu biến độ dài của từng đáp án --- %
+\newlength{\widthA}
+\newlength{\widthB}
+\newlength{\widthC}
+\newlength{\widthD}
+
+% --- tạo biến lưu độ dài của câu dài nhất --- %
+\newlength{\maxWidth}
+
+% --- tạo biến số lượng cột để xem chia thành 1, 2 hay 4 cột --- %
+\newcounter{numCols}
+
+% --- Câu trắc nghiệm trong khu vực Trắc nghiệm --- %
+\newcommand{\CauTracNghiem}[5]{
+    % --- nội dung câu hỏi --- %
+    \item #1
+    
+    % --- phần đáp án --- %
+    
+    % --- lấy độ dài của câu hỏi --- %
+    \settowidth{\widthA}{#2}
+    \settowidth{\widthB}{#3}
+    \settowidth{\widthC}{#4}
+    \settowidth{\widthD}{#5}
+    
+    % --- xem câu trả lời nào dài nhất --- %
+    \setlength{\maxWidth}{\widthA}
+    \ifdim\widthB>\maxWidth \setlength{\maxWidth}{\widthB} \fi
+    \ifdim\widthC>\maxWidth \setlength{\maxWidth}{\widthC} \fi
+    \ifdim\widthD>\maxWidth \setlength{\maxWidth}{\widthD} \fi
+    
+    % --- kiểm tra độ rộng để quyết định là 1 2 hay 4 cột --- %
+    \setcounter{numCols}{4}
+    \ifdim\maxWidth>0.45\textwidth \setcounter{numCols}{1}
+    \else
+    	\ifdim\maxWidth>0.22\textwidth \setcounter{numCols}{2}
+    	\else
+    		\setcounter{numCols}{4}
+    	\fi
+    \fi
+    \miniCauTracNghiem{\value{numCols}}{#2}{#3}{#4}{#5}
+}
+
+% --- hàm gắn giá trị vào ---%
+\newcommand{\miniCauTracNghiem}[5]{
+	\begin{itemize}[
+		leftmargin=50pt, 
+		label={},
+		noitemsep,
+		top-sep=0pt
+		] 
+	\item
+	\begin{tasks}[
+		label=\textbf{\Alph*.},
+		label-width=15pt,
+		item-indent=20pt,
+		column-sep=10pt,
+		after-item-skip=5pt,
+		before-skip=0pt,
+		](#1)
+		\task #2
+		\task #3
+		\task #4
+		\task #5
+	\end{tasks}
+\end{itemize}
+}
+
+
+\newcommand{\CauDungSai}[5]{
+	\item #1 \par
+	\vspace{3pt}
+	\renewcommand{\arraystretch}{1.4}
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{25pt}|X|>{\centering\arraybackslash}p{35pt}|>{\centering\arraybackslash}p{35pt}|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Nội dung}} & \textbf{Đúng} & \textbf{Sai} \\ \hline
+		\textbf{A.} & #2 & & \\ \hline
+		\textbf{B.} & #3 & & \\ \hline
+		\textbf{C.} & #4 & & \\ \hline
+		\textbf{D.} & #5 & & \\ \hline
+	\end{tabularx}
+}
