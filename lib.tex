@@ -1,10 +1,14 @@
-% !TEX root = lib.tex
 \documentclass[14pt]{extarticle}
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
 \usepackage[a4paper, top=1cm, left=1cm, right=1cm, bottom=2cm]{geometry}
 \usepackage{lib}
+
+% --- Nếu là in cho giáo viên thì có đáp án, nhớ set true --- %
+\setbool{isTeacher}{true}
+% --- Mã đề thi --- %
 \madethi{111}
+
 \begin{document}
 \thongtintruong{CUỐI}{2}{2025 - 2026}{11}
 \begin{khuvuc}{Câu trắc nghiệm nhiều phương án lựa chọn. Mỗi câu hỏi thí sinh chỉ chọn một phương án.}
@@ -13,12 +17,16 @@
 {Câu nào sau đây là đáp án đúng}
 {Câu nào sau đây là đáp án đúng}
 {Câu nào sau đây là đáp án đúng}
-{Câu nào sau đây là đáp án đúng}
+{\Dung Câu nào sau đây là đáp án đúng}
 \end{khuvuc}
 %
 \begin{khuvuc}{Câu hỏi đúng sai}
-	\CauDungSai{3221}{1}{2}{3}{4}
-	\CauDungSai{321}{1}{2}{3}{4}
+	\CauDungSai{3221}
+	{\Dung 1}
+	{\Sai 2}
+	{\Dung 3}
+	{\Sai 4}
 \end{khuvuc}
+
 \cuoidethi
 \end{document}

@@ -14,7 +14,15 @@
 \RequirePackage{etoolbox}
 \RequirePackage{environ}
 \RequirePackage{enumitem}
-\RequirePackage{array} % Hỗ trợ định dạng bảng tốt hơn
+\RequirePackage{array}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
+
+\newbool{isTeacher}
+\setbool{isTeacher}{false}
+\def\Dung{DUNG}
+\def\Sai{SAI}
+
 % --- Mã đề thi ---
 \newcommand{\madethi}[1]{\def\sode{#1}}
 
@@ -160,7 +168,6 @@
 		leftmargin=50pt, 
 		label={},
 		noitemsep,
-		top-sep=0pt
 		] 
 	\item
 	\begin{tasks}[
@@ -171,15 +178,21 @@
 		after-item-skip=5pt,
 		before-skip=0pt,
 		](#1)
-		\task #2
-		\task #3
-		\task #4
-		\task #5
+		\task \checkDung{#2}{\textcolor{red}{#2}}{#2}
+		\task \checkDung{#3}{\textcolor{red}{#3}}{#3}
+		\task \checkDung{#4}{\textcolor{red}{#4}}{#4}
+		\task \checkDung{#5}{\textcolor{red}{#5}}{#5}
 	\end{tasks}
 \end{itemize}
 }
 
+% --- Hàm tạo màu cho đáp án đúng của trắc nghiệm --- %
+\newcommand{\DATN}[1]{%
+	\ifbool{isTeacher}{\textcolor{red}{\textbf{#1}}}{#1}
+}
+% --------------------------------------------------- %
 
+% --- Phần câu hỏi và câu trả lời đúng sai --- %
 \newcommand{\CauDungSai}[5]{
 	\item #1 \par
 	\vspace{3pt}
@@ -188,9 +201,70 @@
 	\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}p{25pt}|X|>{\centering\arraybackslash}p{35pt}|>{\centering\arraybackslash}p{35pt}|}
 		\hline
 		\multicolumn{2}{|c|}{\textbf{Nội dung}} & \textbf{Đúng} & \textbf{Sai} \\ \hline
-		\textbf{A.} & #2 & & \\ \hline
-		\textbf{B.} & #3 & & \\ \hline
-		\textbf{C.} & #4 & & \\ \hline
-		\textbf{D.} & #5 & & \\ \hline
+		\textbf{A.} & \printclean{#2} & \checkDung{#2}{\textbf{X}}{} & \checkSai{#2}{\textbf{X}}{} \\ \hline
+		\textbf{B.} & \printclean{#3} & \checkDung{#3}{\textbf{X}}{} & \checkSai{#3}{\textbf{X}}{} \\ \hline
+		\textbf{C.} & #4 & \checkDung{#4}{\textbf{X}}{} & \checkSai{#4}{\textbf{X}}{} \\ \hline
+		\textbf{D.} & #5 & \checkDung{#5}{\textbf{X}}{} & \checkSai{#5}{\textbf{X}}{} \\ \hline
 	\end{tabularx}
 }
+% ----------------------------------------- %
+
+% --- Hàm tạo chữ X cho đáp án đúng sai --- %
+\newcommand{\checkDung}[3]{%
+	\ifbool{isTeacher}{
+		\IfContains{#1}{\Dung}{#2}{#3}%
+		}{#3}%
+}
+\newcommand{\checkSai}[3]{%
+	\ifbool{isTeacher}{%
+		\IfContains{#1}{\Sai}{#2}{#3}%
+		}{#3}%
+}
+% ----------------------------------------- %
+\makeatletter
+% --- Hàm kiểm tra xem có chữ \dung \saii trong câu trả lời không --- %
+
+\newcommand{\IfContains}[4]{%
+	\def\check##1#2##2##3\@nil{\ifx\relax##2\relax#4\else#3\fi}%
+	\check#1#2\relax\relax\@nil%
+}
+
+
+\def\remove@DUNG#1DUNG#2\@nil{#1#2}
+\def\remove@SAI#1SAI#2\@nil{#1#2}
+
+\newcommand{\printclean}[1]{%
+	\IfContains{#1}{DUNG}{%
+		\expandafter\remove@DUNG#1\@nil%
+	}{%
+		\IfContains{#1}{SAI}{%
+			\expandafter\remove@SAI#1\@nil%
+		}{#1}%
+	}%
+}
+\makeatother
+% ------------------------------------------------------------------- %
+
+%
+%\newcommand{\printclean}[1]{%
+%	\IfContains{#1}{DUNG}%
+%	{\expandafter\remove@DUNG#1\@nil}%
+%	{\IfContains{#1}{SAI}%
+%		{\expandafter\remove@SAI#1\@nil}%
+%		{#1}%
+%	}%
+%}
+%\makeatother
+
+
+
+
+% --- Footer --- %
+\pagestyle{fancy}
+\fancyhf{} % xoá hết header/footer mặc định --- %
+\renewcommand{\footrulewidth}{0.4pt} % --- kẻ cái line có độ dày 0.4pt --- %
+\fancyhf[C]{Trang \thepage/\pageref{LastPage} --- Mã đề: \sode}
+% -------------- %
+
+
+
