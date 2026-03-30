@@ -53,7 +53,7 @@
         &
         % --- Cột bên phải --- %
         \begin{tabular}[t]{@{}c@{}}
-            \textbf{ĐỀ THI #1 HỌC KÌ #2 - NĂM HỌC #3}   \\
+            \textbf{ĐỀ THI #1 HỌC KÌ #2-NĂM HỌC #3}   \\
             \begin{tabular}{ll}
                 \textbf{Môn: Toán học \hspace{1cm} Khối: #4} \\
                 \textbf{Thời gian: 90 phút}                  \\
@@ -138,10 +138,10 @@
     % --- phần đáp án --- %
     
     % --- lấy độ dài của câu hỏi --- %
-    \settowidth{\widthA}{#2}
-    \settowidth{\widthB}{#3}
-    \settowidth{\widthC}{#4}
-    \settowidth{\widthD}{#5}
+    \settowidth{\widthA}{\printclean{#2}}
+    \settowidth{\widthB}{\printclean{#3}}
+    \settowidth{\widthC}{\printclean{#4}}
+    \settowidth{\widthD}{\printclean{#5}}
     
     % --- xem câu trả lời nào dài nhất --- %
     \setlength{\maxWidth}{\widthA}
@@ -184,6 +184,7 @@
 	\end{tasks}
 \end{itemize}
 }
+% --------------------------------------------------- %
 
 % --- Hàm tạo màu cho đáp án đúng của trắc nghiệm --- %
 \newcommand{\DATN}[1]{%
@@ -208,7 +209,18 @@
 }
 % ----------------------------------------- %
 
-
+% --- Phần câu hỏi tự luận
+\newcommand{\CauTuLuan}[2]{
+    \item #1 \par
+    \vspace{0pt}
+    \ifbool{isTeacher}{
+        \begin{center}
+            \textbf{Lời giải:}
+        \end{center}
+        \vspace{0pt}
+        #2
+    }{}
+}
 
 \makeatletter
 \def\Dung{DUNG}
@@ -247,26 +259,12 @@
 		}{#3}%
 }
 \makeatother
-% ------------------------------------------------------------------- %
+% ------------------------------------------------------------------------ %
 
-%
-%\newcommand{\printclean}[1]{%
-%	\IfContains{#1}{DUNG}%
-%	{\expandafter\remove@DUNG#1\@nil}%
-%	{\IfContains{#1}{SAI}%
-%		{\expandafter\remove@SAI#1\@nil}%
-%		{#1}%
-%	}%
-%}
-%\makeatother
-
-% ---------------- Footer ---------------- %
+% ------------------- Footer ------------------ %
 \pagestyle{fancy}
 \fancyhf{} % xoá hết header/footer mặc định --- %
-\renewcommand{\headrulewidth}{0pt} % --- xoá cái line trên header --- %
+\renewcommand{\headrulewidth}{0pt} % --- xoá cái line trên header -------- %
 \renewcommand{\footrulewidth}{0.4pt} % --- kẻ cái line có độ dày 0.4pt --- %
 \fancyfoot[C]{Trang \thepage/\pageref{LastPage} --- Mã đề: \sode}
-% ---------------------------------------- %
-
-
-
+% --------------------------------------------- %

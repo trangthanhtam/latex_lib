@@ -3,6 +3,7 @@
 \setmainfont{Times New Roman}
 \usepackage[a4paper, top=1cm, left=1cm, right=1cm, bottom=2cm]{geometry}
 \usepackage{lib}
+\usepackage{tikz}
 
 % --- Nếu là in cho giáo viên thì có đáp án, nhớ set true --- %
 \setbool{isTeacher}{true}
@@ -11,10 +12,10 @@
 \madethi{111}
 
 \begin{document}
-\thongtintruong{CUỐI}{2}{2025 - 2026}{11}
+\thongtintruong{CUỐI}{2}{2025-2026}{11}
 \begin{khuvuc}{Câu trắc nghiệm nhiều phương án lựa chọn. Mỗi câu hỏi thí sinh chỉ chọn một phương án.}
 \CauTracNghiem
-{12334}
+{1234567}
 {a}
 {b}
 {c}
@@ -22,12 +23,15 @@
 \end{khuvuc}
 %
 \begin{khuvuc}{Câu hỏi đúng sai}
-	\CauDungSai{3221}
+	\CauDungSai{123123}
 	{\Dung 1}
 	{\Sai 2}
 	{\Dung 3}
 	{\Sai 4}
 \end{khuvuc}
-
+%
+\begin{khuvuc}{Câu tự luận}
+	\CauTuLuan{ABC}{Lời giải nè}
+\end{khuvuc}
 \cuoidethi
 \end{document}
