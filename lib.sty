@@ -20,8 +20,7 @@
 
 \newbool{isTeacher}
 \setbool{isTeacher}{false}
-\def\Dung{DUNG}
-\def\Sai{SAI}
+
 
 % --- Mã đề thi ---
 \newcommand{\madethi}[1]{\def\sode{#1}}
@@ -178,10 +177,10 @@
 		after-item-skip=5pt,
 		before-skip=0pt,
 		](#1)
-		\task \checkDung{#2}{\textcolor{red}{#2}}{#2}
-		\task \checkDung{#3}{\textcolor{red}{#3}}{#3}
-		\task \checkDung{#4}{\textcolor{red}{#4}}{#4}
-		\task \checkDung{#5}{\textcolor{red}{#5}}{#5}
+		\task \checkDung{#2}{\textcolor{red}{\textbf{\printclean{#2}}}}{\printclean{#2}}
+        \task \checkDung{#3}{\textcolor{red}{\textbf{\printclean{#3}}}}{\printclean{#3}}
+        \task \checkDung{#4}{\textcolor{red}{\textbf{\printclean{#4}}}}{\printclean{#4}}
+        \task \checkDung{#5}{\textcolor{red}{\textbf{\printclean{#5}}}}{\printclean{#5}}
 	\end{tasks}
 \end{itemize}
 }
@@ -203,44 +202,49 @@
 		\multicolumn{2}{|c|}{\textbf{Nội dung}} & \textbf{Đúng} & \textbf{Sai} \\ \hline
 		\textbf{A.} & \printclean{#2} & \checkDung{#2}{\textbf{X}}{} & \checkSai{#2}{\textbf{X}}{} \\ \hline
 		\textbf{B.} & \printclean{#3} & \checkDung{#3}{\textbf{X}}{} & \checkSai{#3}{\textbf{X}}{} \\ \hline
-		\textbf{C.} & #4 & \checkDung{#4}{\textbf{X}}{} & \checkSai{#4}{\textbf{X}}{} \\ \hline
-		\textbf{D.} & #5 & \checkDung{#5}{\textbf{X}}{} & \checkSai{#5}{\textbf{X}}{} \\ \hline
+		\textbf{C.} & \printclean{#4} & \checkDung{#4}{\textbf{X}}{} & \checkSai{#4}{\textbf{X}}{} \\ \hline
+		\textbf{D.} & \printclean{#5} & \checkDung{#5}{\textbf{X}}{} & \checkSai{#5}{\textbf{X}}{} \\ \hline
 	\end{tabularx}
 }
 % ----------------------------------------- %
 
-% --- Hàm tạo chữ X cho đáp án đúng sai --- %
-\newcommand{\checkDung}[3]{%
-	\ifbool{isTeacher}{
-		\IfContains{#1}{\Dung}{#2}{#3}%
-		}{#3}%
-}
-\newcommand{\checkSai}[3]{%
-	\ifbool{isTeacher}{%
-		\IfContains{#1}{\Sai}{#2}{#3}%
-		}{#3}%
-}
-% ----------------------------------------- %
+
+
 \makeatletter
+\def\Dung{DUNG}
+\def\Sai{SAI}
 % --- Hàm kiểm tra xem có chữ \dung \saii trong câu trả lời không --- %
-
 \newcommand{\IfContains}[4]{%
-	\def\check##1#2##2##3\@nil{\ifx\relax##2\relax#4\else#3\fi}%
-	\check#1#2\relax\relax\@nil%
+	\protected@edef\temp@content{#1}%
+    \def\check##1#2##2##3\@nil{\ifx\relax##2\relax#4\else#3\fi}%
+    \expandafter\check\temp@content#2\relax\relax\@nil%
 }
-
 
 \def\remove@DUNG#1DUNG#2\@nil{#1#2}
 \def\remove@SAI#1SAI#2\@nil{#1#2}
 
 \newcommand{\printclean}[1]{%
-	\IfContains{#1}{DUNG}{%
-		\expandafter\remove@DUNG#1\@nil%
-	}{%
-		\IfContains{#1}{SAI}{%
-			\expandafter\remove@SAI#1\@nil%
-		}{#1}%
-	}%
+	\protected@edef\temp@clean{#1}%
+    \IfContains{\temp@clean}{DUNG}{%
+        \expandafter\remove@DUNG\temp@clean\@nil%
+    }{%
+        \IfContains{\temp@clean}{SAI}{%
+            \expandafter\remove@SAI\temp@clean\@nil%
+        }{#1}%
+    }%
+}
+
+% --- Hàm tạo chữ X cho đáp án đúng sai --- %
+\newcommand{\checkDung}[3]{%
+	\ifbool{isTeacher}{
+		\IfContains{#1}{DUNG}{#2}{#3}%
+		}{#3}%
+}
+
+\newcommand{\checkSai}[3]{%
+	\ifbool{isTeacher}{%
+		\IfContains{#1}{SAI}{#2}{#3}%
+		}{#3}%
 }
 \makeatother
 % ------------------------------------------------------------------- %
@@ -256,15 +260,13 @@
 %}
 %\makeatother
 
-
-
-
-% --- Footer --- %
+% ---------------- Footer ---------------- %
 \pagestyle{fancy}
 \fancyhf{} % xoá hết header/footer mặc định --- %
+\renewcommand{\headrulewidth}{0pt} % --- xoá cái line trên header --- %
 \renewcommand{\footrulewidth}{0.4pt} % --- kẻ cái line có độ dày 0.4pt --- %
-\fancyhf[C]{Trang \thepage/\pageref{LastPage} --- Mã đề: \sode}
-% -------------- %
+\fancyfoot[C]{Trang \thepage/\pageref{LastPage} --- Mã đề: \sode}
+% ---------------------------------------- %
 
 
 
