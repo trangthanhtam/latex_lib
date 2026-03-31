@@ -210,17 +210,30 @@
 % ----------------------------------------- %
 
 % --- Phần câu hỏi tự luận
-\newcommand{\CauTuLuan}[2]{
+\newcommand{\CauTuLuan}[3]{
     \item #1 \par
+    \vspace{0pt}
+    \begin{enumerate}[
+        label=\textbf{\alph*.},
+        leftmargin=60pt,
+        topsep=0pt,
+        partopsep=0pt,
+        parsep=0pt,
+        nosep,
+        noitemsep]
+        #2
+    \end{enumerate}
     \vspace{0pt}
     \ifbool{isTeacher}{
         \begin{center}
             \textbf{Lời giải:}
         \end{center}
-        \vspace{0pt}
-        #2
+        \par\vspace{-5pt}
+        \noindent
+        #3
     }{}
 }
+
 
 \makeatletter
 \def\Dung{DUNG}
@@ -255,11 +268,11 @@
 
 \newcommand{\checkSai}[3]{%
 	\ifbool{isTeacher}{%
-		\IfContains{#1}{SAI}{#2}{#3}%
+    	\IfContains{#1}{SAI}{#2}{#3}%
 		}{#3}%
 }
 \makeatother
-% ------------------------------------------------------------------------ %
+% ----------------------------------------- %
 
 % ------------------- Footer ------------------ %
 \pagestyle{fancy}
