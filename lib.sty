@@ -102,7 +102,8 @@
     {0pt}
     {}
     {}
-
+% --- \titlespacing{command}{left}{top}{after}[right]
+    \titlespacing{\section}{0pt}{5pt}{10pt}
 % --- Khu vực câu hỏi ví dụ section ---
 \newenvironment{khuvuc}[1]{
     \section{#1}
@@ -110,6 +111,7 @@
         label=\textbf{Câu \arabic*:},
         wide=0pt, % Canh đều lề trái toàn bộ câu hỏi
         labelindent=0pt,
+        topsep=0pt,
         align=left,	 % ép canh lề trái
         resume, % Reset lại câu 1 khi qua khu vực mới
         font=\normalfont\bfseries % Ép font chữ Câu giống hệt font Section
@@ -117,7 +119,8 @@
 }{
     \end{enumerate}
 }
-    
+% ------------------------------------------------ %
+
 % --- tạo biến lưu biến độ dài của từng đáp án --- %
 \newlength{\widthA}
 \newlength{\widthB}
@@ -235,7 +238,7 @@
 }
 
 
-\makeatletter
+\makeatletter % ---
 \def\Dung{DUNG}
 \def\Sai{SAI}
 % --- Hàm kiểm tra xem có chữ \dung \saii trong câu trả lời không --- %
