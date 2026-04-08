@@ -3,6 +3,9 @@
 \setmainfont{Times New Roman}
 \usepackage[a4paper, top=1cm, left=1cm, right=1cm, bottom=2cm]{geometry}
 \usepackage{lib}
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings}
+\setbool{isTeacher}{true}
 \madethi{000}
 \begin{document}
 \begin{khuvuc}{Bài tập}
@@ -20,9 +23,75 @@
         \item Góc giữa hai mặt phẳng $(SCD)$ và $(ABCD)$.
         \item Góc giữa hai mặt phẳng $(SBC)$ và $(SAD)$.
     }
-    {Lời giải}
+    {
+        \begin{center}
+            \begin{tikzpicture}[
+                % Định nghĩa dấu gạch chéo đơn
+                equal/.style={
+                    decoration={markings, mark=at position 0.5 with {\draw[thick, blue] (0,-2pt) -- (0,2pt);}},
+                    postaction={decorate}
+                },
+                % Định nghĩa dấu gạch chéo đôi (nếu cần)
+                equalstyle2/.style={
+                    decoration={markings, mark=at position 0.5 with {
+                        \draw[-] (-1pt,-2pt) -- (-1pt,2pt);
+                        \draw[-] (1pt,-2pt) -- (1pt,2pt);
+                    }},
+                    postaction={decorate}
+                }
+            ]
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (-2,-3);
+                \coordinate (C) at (6,-3);
+                \coordinate (D) at (8,0);
+                \coordinate (S) at (0,5);
+                \coordinate (Sx) at (0,5);
+
+                \draw[equal, dashed]   (S) -- (A) node[midway, left] {$a$};
+                \draw[equal, dashed]   (A) -- (B) node[midway, left] {$a$};
+                \draw[thick]    (B) -- (C) -- (D);
+                \draw[thick]    (S) -- (B);
+                \draw[thick]    (S) -- (C);
+                \draw[thick]    (S) -- (D);
+                \draw[dashed]   (A) -- (D) node[midway, above] {$a\sqrt{3}$};
+                \draw[thick, red]   (0,0) -- (0,0.25) -- (0.25, 0.25) -- (0.25,0) -- (0,0);
+                \draw[thick, blue]  (0,0) -- (-0.1,-0.15) -- (0.15,-0.15) -- (0.25,0);
+                \draw[red] ([shift=(150:0.5cm)]D) arc (150:180:0.5cm);
+                \draw[thick] (-5,5) -- (10,5) node[above] {$S_x$};
+
+                \foreach \p/\pos in {S/above, A/left, B/below, C/right, D/right}
+                \node[\pos] at (\p) {\p};
+            \end{tikzpicture} 
+        \end{center}
+        \textbf{a.} ((SCD),(ABCD))\\
+        Ta có:\\
+        $(SCD) \cap (ABCD) = CD$\\
+        * Xét $(ABCD)$ có:\\
+        $\begin{cases}
+            \begin{aligned}
+                & AC \perp CD \text{(vì ABCD là hình chữ nhật)}\\
+                & AC \subset (ABCD)
+            \end{aligned}
+        \end{cases}$
+        \textcolor{red}{\textbf{(1)}}\\[0.5cm]
+        * Xét $(SCD)$ có:\\
+        $\begin{cases}
+            \begin{aligned}
+                & SA \perp CD \text{(Vì SA vuông góc (ABCD))}\\
+                & AD \perp CD \text{(Vì ABCD là hình chữ nhật)}\\
+                & SA \cap AD = A \\
+                & SA, AD \subset (SAC)
+            \end{aligned}
+        \end{cases}$
+        $\Rightarrow CD \perp (SAC) \Rightarrow CD \perp SC$ \textcolor{red}{\textbf{(2)}}\\[0.5cm]
+        Từ \textcolor{red}{\textbf{(1)}} và \textcolor{red}{\textbf{(2)}} suy ra:\\
+        $((SCD),(ABCD))=(AC,SC)$\\
+
+        *Xét $\triangle SAD$ có: $\tan \widehat{SDA} = \dfrac{SA}{AD} = \dfrac{a}{a\sqrt{3}}=\dfrac{1}{\sqrt{3}}=30^\circ $\\[0,5cm]
+    \textbf{b.} $((SBC),(SAD))$
+    }
     \CauTuLuan{
-        Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang vuông tại $A, AB=BC=a;AD=2AB$
+        Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang vuông tại $A$, $AB=BC=a$, $AD=2AB$
         và hai mặt bên $(SAB),(SAD)$ vuông góc với đáy và $SA=a\sqrt{2}$:
     }{
         \item Tính tang của góc $\varphi$ giữa $(SBC)$ và $(ABCD)$.
@@ -45,7 +114,7 @@
         Lời giải
     }
     \CauTuLuan{
-        Cho lăng trụ đứng $ABC.A'B'C'$, đáy $ABC$ là tam giác cân $AB=AC=a, BAC=12^\circ, BB'=a, I$ là trung điểm
+        Cho lăng trụ đứng $ABC.A'B'C'$, đáy $ABC$ là tam giác cân $AB=AC=a$, $BAC=12^\circ$, $BB'=a$, $I$ là trung điểm
         của $CC'$.
     }{
         \item Tính cosin của góc giữa hai mặt phẳng $(ABC)$ và $(A'B'I')$.
