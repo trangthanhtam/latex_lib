@@ -17,7 +17,7 @@
 \RequirePackage{array}
 \RequirePackage{fancyhdr}
 \RequirePackage{lastpage}
-
+\usetikzlibrary{calc}
 \newbool{isTeacher}
 \setbool{isTeacher}{false}
 
@@ -97,8 +97,8 @@
 
 % --- Cấu hình Section ---
 \titleformat{\section}
-    {\normalfont\bfseries}
-    {Phần \thesection: }
+    {\normalfont}
+    {\textbf{Phần \thesection: }}
     {0pt}
     {}
     {}
@@ -109,7 +109,7 @@
     \section{#1}
     \begin{enumerate}[
         label=\textbf{Câu \arabic*:},
-        wide=0pt, % Canh đều lề trái toàn bộ câu hỏi
+        leftmargin=*,
         labelindent=0pt,
         topsep=0pt,
         align=left,	 % ép canh lề trái
@@ -167,7 +167,7 @@
 % --- hàm gắn giá trị vào ---%
 \newcommand{\miniCauTracNghiem}[5]{
 	\begin{itemize}[
-		leftmargin=50pt, 
+		leftmargin=0pt, 
 		label={},
 		noitemsep,
 		] 
@@ -216,6 +216,7 @@
 \newcommand{\CauTuLuan}[3]{
     \item #1 \par
     \vspace{0pt}
+    \ifstrempty{#2} {
     \begin{enumerate}[
         label=\textbf{\alph*.},
         leftmargin=60pt,
@@ -226,6 +227,7 @@
         noitemsep]
         #2
     \end{enumerate}
+    }
     \vspace{0pt}
     \ifbool{isTeacher}{
         \begin{center}
