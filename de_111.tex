@@ -1,7 +1,8 @@
-\documentclass[14pt]{extarticle}
+\documentclass{article}
+\usepackage[fontsize=13pt]{scrextend}
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
-\usepackage[a4paper, top=1cm, left=1cm, right=1cm, bottom=2cm]{geometry}
+\usepackage[a4paper, top=1.5cm, left=1.5cm, right=1.5cm, bottom=2cm]{geometry}
 \usepackage{lib}
 \usepackage{tikz}
 \madethi{111}
@@ -13,10 +14,10 @@
     {Rút gọn biểu thức $P=x^\frac{1}{2}.x^\frac{1}{3}.\sqrt[6]{x}$}
     {$P=\sqrt{x}$}
     {\Dung $P=x$}
-    {$P=x\frac{11}{6}$}
-    {$P=x\frac{7}{6}$}
+    {$P=x^\frac{11}{6}$}
+    {$P=x^\frac{7}{6}$}
     \CauTracNghiem
-    {Tập xác định của hàm số $log_{2026}{(x-1)}$ là:}
+    {Tập xác định của hàm số $\log_{2026}{(x-1)}$ là:}
     {$\left(2;+\infty \right)$}
     {$\left(-\infty;+\infty \right)$}
     {\Dung $\left(1;+\infty \right)$}
@@ -28,7 +29,7 @@
     {$x=1$}
     {$x=4$}
     \CauTracNghiem
-    {Với $a, b$ là các số thực dương tùy ý và $a \neq 1$, giá trị của $\log_a(a^3)$ bằng:}
+    {Với $a$ là các số thực dương tùy ý và $a \neq 1$, giá trị của $\log_a(a^3)$ bằng:}
     {\Dung $3$}
     {$\dfrac{1}{3}$}
     {$a^3$}
@@ -46,7 +47,7 @@
     {\Dung $y'=4x^3-6x$}
     {$y'=4x^3-6x+1$}
     \CauTracNghiem
-    {Cho hàm số $y=sin(x)$. Đạo hàm y' bằng: }
+    {Cho hàm số $y=sin(x)$. Đạo hàm $y'$ bằng: }
     {\Dung $y'=cos(x)$}
     {$y'=x.cos(x)$}
     {$y=-cos(x)$}
@@ -64,17 +65,17 @@
     {$c \equiv b$}
     {$c$ và $b$ chéo nhau}
     \CauTracNghiem
-    {Cho đường thẳng $d$ vuông góc với mặt phẳng $(P)$. Đường thẳng $d$ sẽ vuông góc với:}
-    {\Dung Mọi đường thẳng nằm trong $(P)$}
-    {Chỉ một đường thẳng nằm trong $(P)$}
-    {Chỉ các đường thẳng đi qua giao điểm của $d$ và $(P)$}
-    {Không có đường thẳng nào trong $(P)$}
-    \CauTracNghiem
     {Cho hình chóp $S.ABC$ có $SA \perp (ABC)$. Khi đó góc giữa $SB$ và mặt phẳng $(ABC)$ là góc:}
     {$\widehat{SBC}$}
     {$\widehat{ASB}$}
     {\Dung $\widehat{SBA}$}
     {$\widehat{SCA}$}
+    \CauTracNghiem
+    {Cho đường thẳng $d$ vuông góc với mặt phẳng $(P)$. Đường thẳng $d$ sẽ vuông góc với:}
+    {\Dung Mọi đường thẳng nằm trong $(P)$}
+    {Chỉ một đường thẳng nằm trong $(P)$}
+    {Chỉ các đường thẳng đi qua giao điểm của $d$ và $(P)$}
+    {Không có đường thẳng nào trong $(P)$}
     \CauTracNghiem
     {Cho hai mặt phẳng $(P)$ và $(Q)$ vuông góc với nhau theo giao tuyến $d$. 
     Nếu đường thẳng $a$ nằm trong $(P)$ và $a \perp d$ thì:}
@@ -99,7 +100,7 @@
         \\
         \CauDungSai
         {Cho hàm số $y = \dfrac{x + 2}{x - 1}$ có đồ thị là $(C)$.}
-        {\Sai Đạo hàm của hàm số đã cho là $y' = \frac{-1}{(x - 1)^2}$.}
+        {\Sai Đạo hàm của hàm số đã cho là $y' = \dfrac{-1}{(x - 1)^2}$.}
         {\Dung Hệ số góc của tiếp tuyến của $(C)$ tại điểm có hoành độ $x = 2$ là $k = -3$.}
         {\Dung Phương trình tiếp tuyến của $(C)$ tại điểm $M(2; 4)$ là $y = -3x + 10$. }
         {\Sai Đạo hàm của hàm số tại $x = 0$ có giá trị dương.}
@@ -145,8 +146,8 @@
         {\Sai Thể tích khối chóp $S.ABCD$ là $V = a^3\sqrt{3}$.}
     \end{khuvuc}
     \begin{khuvuc}{\textbf{Câu trắc nghiệm trả lời ngắn.} Thí sinh trả lời từ câu 1 đến câu 6.}
-        \CauTuLuan{Cho biểu thức $P = \frac{x \cdot \sqrt[3]{x^2}}{\sqrt{x}}$ với $x > 0$. 
-        Khi rút gọn, ta được $P = x^{\frac{a}{b}}$ (với $\frac{a}{b}$ là phân số tối giản). 
+        \CauTuLuan{Cho biểu thức $P = \dfrac{x \cdot \sqrt[3]{x^2}}{\sqrt{x}}$ với $x > 0$. 
+        Khi rút gọn, ta được $P = x^{\frac{a}{b}}$ (với $\dfrac{a}{b}$ là phân số tối giản). 
         Tính giá trị của $T = a + b$.}
         {
             
